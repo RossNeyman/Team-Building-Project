@@ -12,6 +12,7 @@ public class Sorting {
         while (myReader.hasNextLine()) {
             employeeArrayList.add(new Employee(
                     myReader.nextLine(), //name
+                    myReader.nextInt(),  //ID
                     myReader.nextInt(),  //leadershipRating
                     myReader.nextInt(),  //collaborationRating
                     myReader.nextInt(),  //codingSpeed
