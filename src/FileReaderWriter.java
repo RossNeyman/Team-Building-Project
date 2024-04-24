@@ -44,7 +44,7 @@ public class FileReaderWriter {
      * @param worker   the worker
      * @param fileName the file name
      */
-    public void newEntry(Employee worker, String fileName){
+    public void newEntry(Employee worker, String fileName) throws FileNotFoundException{
         try{
             File employees = new File(fileName)
             Scanner read = new Scanner(employees);
@@ -79,7 +79,7 @@ public class FileReaderWriter {
      * @param workerName the worker name
      * @param fileName   the file name
      */
-    public void updateEntry(Employee worker, String workerName, String fileName){
+    public void updateEntry(Employee worker, String workerName, String fileName) throws FileNotFoundException{
         try{
             File employees = new File(fileName)
             Scanner read = new Scanner(employees);
