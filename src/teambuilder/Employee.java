@@ -1,3 +1,5 @@
+package teambuilder;
+
 import java.util.ArrayList;
 
 public class Employee extends Person {
@@ -16,7 +18,7 @@ public class Employee extends Person {
         codingDesign = 0;
         preferredRole = null;
     }
-    public Employee(String n, int id, int l, int col, int codS, int codD, String p) {
+    public Employee(String n, int id, String p, int l, int col, int codS, int codD) {
         name = n;
         ID = id;
         leadershipRating = l;
