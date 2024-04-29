@@ -40,4 +40,14 @@ public class Employee extends Person {
     public void setCodingSpeed(int n) {codingSpeed = n;}
     public void setPreferredRole(String s) {preferredRole = s;}
 
+    public void printInfo(){
+        System.out.println("Name: " + name);
+        System.out.println("ID: " + ID);
+        System.out.println("Preferred Role: " + preferredRole);
+        System.out.println("Leadership Rating: " + leadershipRating + "/10");
+        System.out.println("Collaboration Rating: " + collaborationRating + "/10");
+        System.out.println("Coding Speed Rating: " + codingSpeed + "/10");
+        System.out.println("Code Design Rating: " + codingDesign + "/10");
+    }
+
 }
