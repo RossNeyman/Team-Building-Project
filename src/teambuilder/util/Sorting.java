@@ -46,7 +46,7 @@ public class Sorting extends FileReaderWriter {
             for(int j=0;j<employeesList.size()-i;i++) {
                 if (employeesList.get(i).getCodingSpeed() <= employeesList.get(i + 1).getCodingSpeed())
                     swapEmployees(i,i+1);
-            }
+            }//
         }
     }
     public void sortByLeadership(){
