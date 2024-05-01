@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 
-//import Employee.java;
 
 
 //
@@ -19,47 +18,71 @@ import java.io.FileNotFoundException;
 public class FileReaderWriter {
     protected ArrayList<Employee> employeesList = new ArrayList<Employee>();
     protected ArrayList<Manager> managersList = new ArrayList<Manager>();
-    public ArrayList<Employee> getList(){
+
+    public ArrayList<Employee> getList() {
         return employeesList;
     }
+
     private String fileName;
 
-    /**
-    * Reads the given file, into list of employees.
-    * The info read from the file is parsed and stored accordingly.
+    // write an update function, to refresh the search.
 
-    * */
+    /**
+     * Reads info from specified file, upon creation of an object.
+     * @param  f filename
+     */
     public FileReaderWriter(String f){
-        fileName = f;
-        this.readInfo(f);
-    }
-    private void readInfo(String fileName) {
         try{
+            fileName = f;
+            this.readInfo(f);
+        }
+        catch(FileNotFoundException except){
+            System.out.println("Error opening " + fileName);
+            throw new RuntimeException(except);
+        }
+        catch(RuntimeException except){
+
+        }
+    }
+
+    /**
+     * Reads info from a file, and parses said info.
+     * Only meant to be used by methods in the class.
+     * @param f fileName
+     */
+    private void readInfo(String f) throws FileNotFoundException{
+        try {
             File employees = new File(fileName);
             Scanner read = new Scanner(employees);
 
-            while(read.hasNext()){
-                employeesList.add(
-                        new Employee(
-                                read.next(),
-                                read.nextInt(),
-                                read.next(),
-                                read.nextInt(),
-                                read.nextInt(),
-                                read.nextInt(),
-                                read.nextInt()));
-                // input is {name, ID, preferred role, leaderShip rating, collaboration rating, coding Speed, code design}
+            while (read.hasNext()) {
+                Employee worker = new Employee(
+                        read.next(),
+                        read.nextInt(),
+                        read.next(),
+                        read.nextInt(),
+                        read.nextInt(),
+                        read.nextInt(),
+                        read.nextInt());
+                employeesList.add(worker);
             }
             read.close();
         }
         catch(FileNotFoundException except){
-            System.out.println("Error opening file");
+            System.out.println("Error opening " + fileName);
             throw new RuntimeException(except);
         }
+        catch(RuntimeException except){
+
+        }
+        finally{
+
+        }
+
+    }
 
         //no need to put read.close() again, the only case where this line is used is if file can't open,
         //therefore there is no need to close the scanner.
-    }
 
     /**
      * Adds new employee info to employees file.
@@ -67,42 +90,32 @@ public class FileReaderWriter {
      * @param worker   the worker
      * @param fileName the file name
      */
-    public void newEntry(Employee worker, String fileName){
-        try{
-            File employees = new File(fileName);
-            Scanner read = new Scanner(employees);
-            FileWriter newEmployeeInfo = new FileWriter(fileName);
-            String lineRead;
-
-            while(read.hasNext()){
-                lineRead = read.nextLine();
-            }
-            newEmployeeInfo.write(worker.getName());
-            newEmployeeInfo.write(worker.getID());
-            newEmployeeInfo.write(worker.getPreferredRole());
-            newEmployeeInfo.write(worker.getLeadershipRating());
-            newEmployeeInfo.write(worker.getCollaborationRating());
-            newEmployeeInfo.write(worker.getCodingSpeed());
-            newEmployeeInfo.write(worker.getCodingDesign());
-
-
-        }
-        catch(FileNotFoundException except){
+    public void newEntry(Employee worker, String fileName) {
+        try (FileWriter newEmployee = new FileWriter(fileName)) {
+            this.readInfo(fileName);
+            newEmployee.write(worker.getName());
+            newEmployee.write(worker.getID());
+            newEmployee.write(worker.getPreferredRole());
+            newEmployee.write(worker.getLeadershipRating());
+            newEmployee.write(worker.getCollaborationRating());
+            newEmployee.write(worker.getCodingSpeed());
+            newEmployee.write(worker.getCodingDesign());
+        } catch (FileNotFoundException except) {
             System.out.println("Error opening file");
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } //finally{
-            //newEmployeeInfo.close();
-            //read.close();
-        }
+        } catch (RuntimeException except) {
 
+        } finally {
+
+        }
+    }
 
     /**
      * updates the info of already existing employees.
-
-     * //@param worker     the worker
-     * //@param workerName the worker name
-     * //@param fileName   the file name
+     * @param worker     the worker
+     * @param target the worker name
+     * @param fileName   the file name
      */
     public void updateEntry(Employee worker, String target, String fileName){
         try (FileWriter newEmployeeInfo = new FileWriter(fileName)){
@@ -127,29 +140,52 @@ public class FileReaderWriter {
                     found = true;
                 }
             }
+            read.close();
         }
-        catch(FileNotFoundException excpt){
+        catch(FileNotFoundException except){
             System.out.println("Error opening file");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        } finally{
-//            newEmployeeInfo.close();
-//            read.close();
+        catch(RuntimeException except){
+
+        }
+        finally{
+
+        }
+    }
+
+    /**
+     * Refreshes the file search.
+     * @param f file's name.
+     */
+    public void updateSearch(String f){
+        try{
+            this.readInfo(f);
+        }
+        catch(FileNotFoundException except){
+            System.out.println("Error opening " + fileName);
+            throw new RuntimeException(except);
+        }
+        catch(RuntimeException except){
+
         }
 
+    }
 
 
+    /*public void displayWorkers() {
+        int len = employeesList.size();
+        for (int i = 0; i < len; i++) {
+            System.out.println(employeesList.get(i).getName());
+            System.out.println(employeesList.get(i).getID());
+            System.out.println(employeesList.get(i).getPreferredRole());
+            System.out.println(employeesList.get(i).getLeadershipRating());
+            System.out.println(employeesList.get(i).getCodingDesign());
+            System.out.println(employeesList.get(i).getCodingSpeed());
+            System.out.println(employeesList.get(i).getCollaborationRating());
+        }
 
-       /* Returns an ArrayList of the companies employees.
-    * */
-
-
-    //
-   // * Reads info from specified file, upon creation of an object.
-   // *
-   // * @param name of file to be read.
- //   * */
-
+    }*/
 
 }
