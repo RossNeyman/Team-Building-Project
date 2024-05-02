@@ -1,7 +1,9 @@
-package teamBuilder
+package teambuilder;
 
-public class buildTeam{
-    private ArrayList<Employees> TeamList = new ArrayList<Employees>();
+import java.util.ArrayList;
+
+public class TeamBuilder{
+    private ArrayList<Employee> teamList = new ArrayList<Employee>();
     private int memberCount;
     private int maxMembers;
 

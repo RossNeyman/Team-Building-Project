@@ -8,13 +8,20 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class Sorting extends FileReaderWriter {
-    public Sorting(String fileName){super(fileName);}
+public class EmployeeDBTools extends EmployeeDB {
+    public EmployeeDBTools(String fileName){super(fileName);}
 
     public Employee searchEmployeeByID(int id) throws Exception {
         for (Employee employee : employeesList) {
                 if (employee.getID() == id)
                     return employee;
+        }
+        throw new Exception("Employee not found");
+    }
+    public Employee searchEmployeeByName(String nameSrc) throws Exception {
+        for(Employee employee : employeesList){
+            if(employee.getName().equals(nameSrc))
+                return employee;
         }
         throw new Exception("Employee not found");
     }
@@ -57,8 +64,4 @@ public class Sorting extends FileReaderWriter {
             }
         }
     }
-
-
-
-
 }

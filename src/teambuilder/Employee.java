@@ -20,7 +20,7 @@ public class Employee extends Person {
     }
     public Employee(String n, int id, String p, int l, int col, int codS, int codD) {
         name = n;
-        ID = id;
+        this.id = id;
         leadershipRating = l;
         collaborationRating = col;
         codingSpeed = codS;
@@ -42,12 +42,16 @@ public class Employee extends Person {
 
     public void printInfo(){
         System.out.println("Name: " + name);
-        System.out.println("ID: " + ID);
+        System.out.println("ID: " + id);
         System.out.println("Preferred Role: " + preferredRole);
         System.out.println("Leadership Rating: " + leadershipRating + "/10");
         System.out.println("Collaboration Rating: " + collaborationRating + "/10");
         System.out.println("Coding Speed Rating: " + codingSpeed + "/10");
         System.out.println("Code Design Rating: " + codingDesign + "/10");
+    }
+    public void printNameID(){
+        System.out.println(name);
+        System.out.println(id);
     }
 
 }
