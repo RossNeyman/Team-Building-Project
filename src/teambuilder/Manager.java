@@ -18,7 +18,7 @@ public class Manager extends Person {
             case 3:
                 emp.setCodingSpeed(rating);
             case 4:
-                emp.setCodingDesign(rating);//
+                emp.setCodingDesign(rating);
         }
     }
     public void changePreferredRole(int employeeID, String role, EmployeeDBTools s) throws Exception {

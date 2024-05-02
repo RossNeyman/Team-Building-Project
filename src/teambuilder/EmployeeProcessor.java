@@ -14,6 +14,7 @@ public class EmployeeProcessor {
     public void processMenu() throws Exception {
         Scanner lineReader = new Scanner(System.in);
         int choice = lineReader.nextInt();
+        int exitChoice = 0;
         switch (choice){
             case 1:
                 this.addUpdateEmployee();
@@ -31,6 +32,10 @@ public class EmployeeProcessor {
                 finished = true;
                 break;
         }
+        TerminalUI.displayExitOption();
+        exitChoice = lineReader.nextInt();
+        if(exitChoice == 1)
+            finished = true;
     }
     public void addUpdateEmployee(){
 

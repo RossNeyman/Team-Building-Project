@@ -30,5 +30,8 @@ public class TerminalUI {
         else
             System.out.print("Please enter Name: ");
     }
+    public static void displayExitOption(){
+        System.out.println("Do you wish to exit? \n(1: yes/2: no)");
+    }
 }
 
