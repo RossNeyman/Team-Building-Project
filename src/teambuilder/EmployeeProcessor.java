@@ -1,5 +1,6 @@
 package teambuilder;
 import java.util.Scanner;
+import java.io.File;
 
 import teambuilder.ui.TerminalUI;
 import teambuilder.util.EmployeeDBTools;
@@ -11,6 +12,7 @@ public class EmployeeProcessor {
     public EmployeeProcessor(String fileName){
         this.fileName = fileName;
     }
+    public boolean getFinishedStatus() {return finished;}
     public void processMenu() throws Exception {
         Scanner lineReader = new Scanner(System.in);
         int choice = lineReader.nextInt();
