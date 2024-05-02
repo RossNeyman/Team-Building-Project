@@ -1,14 +1,14 @@
 package teambuilder;
 
-import teambuilder.util.Sorting;
-import teambuilder.util.FileReaderWriter;
+import teambuilder.util.EmployeeDBTools;
+import teambuilder.util.EmployeeDB;
 
 public class Manager extends Person {
     public Manager(){super();}
     public Manager(String s){super(s);}
     public Manager(String s, int id){super(s,id);}
 
-    public void changeRatings(int employeeID, int ratingCategory, int rating, Sorting s) throws Exception {
+    public void changeRatings(int employeeID, int ratingCategory, int rating, EmployeeDBTools s) throws Exception {
         Employee emp = s.searchEmployeeByID(employeeID);
         switch (ratingCategory){
             case 1:
@@ -21,7 +21,7 @@ public class Manager extends Person {
                 emp.setCodingDesign(rating);//
         }
     }
-    public void changePreferredRole(int employeeID, String role, Sorting s) throws Exception {
+    public void changePreferredRole(int employeeID, String role, EmployeeDBTools s) throws Exception {
         Employee emp = s.searchEmployeeByID(employeeID);
         emp.setPreferredRole(role);
     }
