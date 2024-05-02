@@ -2,6 +2,7 @@ package teambuilder.ui;
 
 
 // keep all system out in this file for TeamBuilder, same as terminalui.
+
 public class TeamBuilderUI {
 
     /**

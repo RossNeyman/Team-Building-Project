@@ -88,6 +88,7 @@ public class EmployeeProcessor {
         switch(choice){
             case 1:
                 data.memberAdd();
+
             case 2:
                 team.removeMember();
             case 3:

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class EmployeeDBTools extends EmployeeDB {
+
     public EmployeeDBTools(String fileName){super(fileName);}
 
     public Employee searchEmployeeByID(int id) throws Exception {
@@ -18,6 +19,7 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         throw new Exception("Employee not found");
     }
+
     public Employee searchEmployeeByName(String nameSrc) throws Exception {
         for(Employee employee : employeesList){
             if(employee.getName().equals(nameSrc))

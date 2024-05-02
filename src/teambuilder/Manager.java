@@ -4,6 +4,7 @@ import teambuilder.util.EmployeeDBTools;
 import teambuilder.util.EmployeeDB;
 
 public class Manager extends Person {
+
     public Manager(){super();}
     public Manager(String s){super(s);}
     public Manager(String s, int id){super(s,id);}

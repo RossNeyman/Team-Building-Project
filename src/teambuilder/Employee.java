@@ -52,6 +52,7 @@ public class Employee extends Person {
     public void printNameID(){
         System.out.println(name);
         System.out.println(id);
+
     }
 
 }
