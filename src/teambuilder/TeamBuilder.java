@@ -1,5 +1,6 @@
 package teambuilder;
 
+import teambuilder.util.EmployeeDBTools;
 import java.util.ArrayList;
 
 public class TeamBuilder{
@@ -11,7 +12,15 @@ public class TeamBuilder{
      * Adds members to the team.
      * To add a member the the memberCount must be less than maxMembers.
      */
-    public void addMember(){
+    public void addMember(Employee worker){
+        try{
+            if(memberCount < maxMembers){
+                teamList.add(worker);
+            }
+        }
+        catch(Exception except){
+
+        }
 
     }
 
@@ -20,7 +29,7 @@ public class TeamBuilder{
      * Remove member from the team.
      * The memeber must exist in th team, in order to be removed.
      */
-    public void removeMember(){
+    public void removeMember(Employee worker){
 
     }
 
@@ -31,4 +40,7 @@ public class TeamBuilder{
 
     }
 
+    public void setMaxMembers(int max){
+        maxMembers = max;
+    }
     }

@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import teambuilder.ui.TerminalUI;
 import teambuilder.util.EmployeeDBTools;
+import teambuilder.TeamBuilder;
 
 public class EmployeeProcessor {
     private String fileName;
@@ -80,6 +81,19 @@ public class EmployeeProcessor {
     }
 
     public void buildTeam(){
-
+        TeamBuilder team = new TeamBuilder();
+        Scanner lineRead = new Scanner(System.in);
+        int choice = lineRead.nextInt();
+        TeamBuilderUI.displayMenu();
+        switch(choice){
+            case 1:
+                data.memberAdd();
+            case 2:
+                team.removeMember();
+            case 3:
+                team.viewMembers();
+            case 4:
+                team.setMaxMembers();
+        }
     }
 }
