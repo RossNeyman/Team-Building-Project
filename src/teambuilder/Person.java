@@ -3,7 +3,6 @@ package teambuilder;
 import java.util.Random;
 
 public abstract class Person {
-
     protected String name;
     protected int id;
 

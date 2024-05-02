@@ -78,7 +78,6 @@ public class EmployeeDB {
         for(Employee employee : employeesList){
                 employee.printNameID();
                 System.out.println("--------------------");
-
         }
     }
 }

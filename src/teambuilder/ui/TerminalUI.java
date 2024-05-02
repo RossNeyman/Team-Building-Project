@@ -3,7 +3,6 @@ package teambuilder.ui;
 import teambuilder.Employee;
 
 public class TerminalUI {
-
     public void displayTitle(){System.out.println("Welcome to the Team Builder");}
     public static void displayMenu(){
         System.out.println("What would you like to do?");
