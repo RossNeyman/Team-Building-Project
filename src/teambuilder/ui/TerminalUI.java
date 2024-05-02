@@ -3,7 +3,7 @@ package teambuilder.ui;
 import teambuilder.Employee;
 
 public class TerminalUI {
-    public void displayTitle(){System.out.println("Welcome to the Team Builder");}
+    public static void displayTitle(){System.out.println("Welcome to the Team Builder");}
     public static void displayMenu(){
         System.out.println("What would you like to do?");
         System.out.println("1. Add/update employee information");
@@ -29,6 +29,13 @@ public class TerminalUI {
             System.out.print("Please enter ID: ");
         else
             System.out.print("Please enter Name: ");
+    }
+    public static void displayExitOption(){
+        System.out.println("Do you wish to exit? \n(1: yes/2: no)");
+    }
+    public static void addUpdateEmployeeChoice(){
+        System.out.println("What would you like to do? ");
+        System.out.println("Add an employee");
     }
 }
 
