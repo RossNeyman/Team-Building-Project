@@ -3,8 +3,9 @@ import java.util.Scanner;
 import java.io.File;
 
 import teambuilder.ui.TerminalUI;
-import teambuilder.util.EmployeeDBTools;
 import teambuilder.TeamBuilder;
+import teambuilder.util.EmployeeDBTools;
+import teambuilder.ui.TeamBuilderUI;
 
 public class EmployeeProcessor {
     private String fileName;
@@ -39,6 +40,7 @@ public class EmployeeProcessor {
         exitChoice = lineReader.nextInt();
         if(exitChoice == 1)
             finished = true;
+        lineReader.close();
     }
     public void addUpdateEmployee(){
 
@@ -62,6 +64,7 @@ public class EmployeeProcessor {
                 break;
         }
         data.printList();
+        lineRead.close();
     }
     public void searchEmployee() throws Exception {
         Scanner lineRead = new Scanner(System.in);
@@ -80,23 +83,55 @@ public class EmployeeProcessor {
         }
         assert retEmployee != null;
         retEmployee.printInfo();
+        lineRead.close();
     }
 
+    //TODO finish the methods
+
+    /**
+     * Combines TeamBuilderUI and TeamBuilder classes for user interaction.
+     */
     public void buildTeam(){
-        TeamBuilder team = new TeamBuilder();
+        TeamBuilder team = new TeamBuilder(fileName);
         Scanner lineRead = new Scanner(System.in);
+        int max;
+        String name;
         int choice = lineRead.nextInt();
         TeamBuilderUI.displayMenu();
+
         switch(choice){
             case 1:
-                data.memberAdd();
-
+                try{
+                    TeamBuilderUI.memberAdd();
+                    name = lineRead.next();
+                    team.addMember(data.searchEmployeeByName(name));
+                }
+                catch(ArithmeticException except){
+                    TeamBuilderUI.displayExceptionMessage(except);
+                }
+                catch(Exception except){}
             case 2:
-                team.removeMember();
+                try{
+                    TeamBuilderUI.memberRemove();
+                    name = lineRead.next();
+                    team.removeMember(data.searchEmployeeByName(name));
+                }
+                catch(Exception except){
+                    TeamBuilderUI.displayExceptionMessage(except);
+                }
             case 3:
+                TeamBuilderUI.memberView(); // displays option to view members
                 team.viewMembers();
             case 4:
-                team.setMaxMembers();
+                try{
+                    TeamBuilderUI.maxMemberSet(); // the default max is 8
+                    max = lineRead.nextInt();
+                    team.setMaxMembers(max);
+                }
+                catch(IllegalArgumentException except){
+                    TeamBuilderUI.displayExceptionMessage(except);
+                }
         }
+        lineRead.close();
     }
 }
