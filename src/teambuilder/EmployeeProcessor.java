@@ -1,22 +1,27 @@
 package teambuilder;
+import java.io.IOException;
 import java.util.Scanner;
 import java.io.File;
 
 import teambuilder.ui.TerminalUI;
 import teambuilder.TeamBuilder;
+import teambuilder.util.EmployeeDB;
 import teambuilder.util.EmployeeDBTools;
 import teambuilder.ui.TeamBuilderUI;
 
 public class EmployeeProcessor {
-    private String fileName;
+
+    //private File dataFile;
     private boolean finished = false;
-    EmployeeDBTools data = new EmployeeDBTools(fileName);
-    public EmployeeProcessor(String fileName){
-        this.fileName = fileName;
+    private final Scanner lineReader = new Scanner(System.in);
+    EmployeeDBTools data;
+    public EmployeeProcessor(File dataFile) throws IOException {
+       // this.dataFile = dataFile;
+        data = new EmployeeDBTools(dataFile);
     }
     public boolean getFinishedStatus() {return finished;}
     public void processMenu() throws Exception {
-        Scanner lineReader = new Scanner(System.in);
+
         int choice = lineReader.nextInt();
         int exitChoice = 0;
         switch (choice){
@@ -33,22 +38,44 @@ public class EmployeeProcessor {
                 this.buildTeam();
                 break;
             case 5:
+                data.writeJson();
+                finished = true;
+                break;
+            default:
+                System.out.println("Invalid input detected: " + choice);
                 finished = true;
                 break;
         }
+        data.writeJson();
         TerminalUI.displayExitOption();
         exitChoice = lineReader.nextInt();
         if(exitChoice == 1)
             finished = true;
-        lineReader.close();
     }
     public void addUpdateEmployee(){
-
+        String name, prefRole;
+        Scanner scnr = new Scanner(System.in);
+        int ID, collab, leadership, codS, codD;
+        System.out.println("What is the new employee's name? ");
+        name = scnr.next();
+        System.out.println("What is the new employee's ID? ");
+        ID = scnr.nextInt();
+        System.out.println("What is the new employee's preferred role?");
+        prefRole = scnr.nextLine();
+        System.out.println("What is the new employee's leadership skill out of 10?");
+        leadership = scnr.nextInt();
+        System.out.println("What is the new employee's collaboration skill out of 10?");
+        collab = scnr.nextInt();
+        System.out.println("What is the new employee's coding design skill out of 10?");
+        codD = scnr.nextInt();
+        System.out.println("What is the new employee's coding speed out of 10?");
+        codS = scnr.nextInt();
+        data.addEmployee(name, ID, prefRole, leadership, collab, codS, codD);
     }
     public void displayEmployeeList(){
-        Scanner lineRead = new Scanner(System.in);
-        int choice = lineRead.nextInt();
         TerminalUI.displayListSorting();
+        int choice = lineReader.nextInt();
+
         switch(choice){
             case 1:
                 data.sortByLeadership();
@@ -62,9 +89,11 @@ public class EmployeeProcessor {
             case 4:
                 data.sortByCodingSpeed();
                 break;
+            case 5:
+                data.printList();
+                break;
         }
         data.printList();
-        lineRead.close();
     }
     public void searchEmployee() throws Exception {
         Scanner lineRead = new Scanner(System.in);
@@ -92,7 +121,7 @@ public class EmployeeProcessor {
      * Combines TeamBuilderUI and TeamBuilder classes for user interaction.
      */
     public void buildTeam(){
-        TeamBuilder team = new TeamBuilder(fileName);
+        TeamBuilder team = new TeamBuilder();
         Scanner lineRead = new Scanner(System.in);
         int max;
         String name;
