@@ -9,12 +9,14 @@ import teambuilder.util.EmployeeDB;
 import teambuilder.util.EmployeeDBTools;
 import teambuilder.ui.TeamBuilderUI;
 
+//TODO if a method uses a throws keyword the exception has to be caught and handled by the method call.
 public class EmployeeProcessor {
 
     //private File dataFile;
     private boolean finished = false;
     private final Scanner lineReader = new Scanner(System.in);
     EmployeeDBTools data;
+    //private TeamBuilder team = new TeamBuilder(data);
     public EmployeeProcessor(File dataFile) throws IOException {
        // this.dataFile = dataFile;
         data = new EmployeeDBTools(dataFile);
@@ -42,9 +44,9 @@ public class EmployeeProcessor {
                 finished = true;
                 break;
             default:
-                System.out.println("Invalid input detected: " + choice);
                 finished = true;
-                break;
+                throw new Exception("Invalid input detected: " + choice);
+                //break;
         }
         data.writeJson();
         TerminalUI.displayExitOption();
@@ -71,6 +73,7 @@ public class EmployeeProcessor {
         System.out.println("What is the new employee's coding speed out of 10?");
         codS = scnr.nextInt();
         data.addEmployee(name, ID, prefRole, leadership, collab, codS, codD);
+        scnr.close();
     }
     public void displayEmployeeList(){
         TerminalUI.displayListSorting();
@@ -115,13 +118,12 @@ public class EmployeeProcessor {
         lineRead.close();
     }
 
-    //TODO finish the methods
 
     /**
      * Combines TeamBuilderUI and TeamBuilder classes for user interaction.
      */
     public void buildTeam(){
-        TeamBuilder team = new TeamBuilder();
+        TeamBuilder team = new TeamBuilder(data);
         Scanner lineRead = new Scanner(System.in);
         int max;
         String name;
@@ -134,6 +136,7 @@ public class EmployeeProcessor {
                     TeamBuilderUI.memberAdd();
                     name = lineRead.next();
                     team.addMember(data.searchEmployeeByName(name));
+                    break;
                 }
                 catch(ArithmeticException except){
                     TeamBuilderUI.displayExceptionMessage(except);
@@ -144,6 +147,7 @@ public class EmployeeProcessor {
                     TeamBuilderUI.memberRemove();
                     name = lineRead.next();
                     team.removeMember(data.searchEmployeeByName(name));
+                    break;
                 }
                 catch(Exception except){
                     TeamBuilderUI.displayExceptionMessage(except);
@@ -151,11 +155,13 @@ public class EmployeeProcessor {
             case 3:
                 TeamBuilderUI.memberView(); // displays option to view members
                 team.viewMembers();
+                break;
             case 4:
                 try{
                     TeamBuilderUI.maxMemberSet(); // the default max is 8
                     max = lineRead.nextInt();
                     team.setMaxMembers(max);
+                    break;
                 }
                 catch(IllegalArgumentException except){
                     TeamBuilderUI.displayExceptionMessage(except);
