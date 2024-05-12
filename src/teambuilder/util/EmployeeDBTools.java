@@ -5,14 +5,30 @@ import teambuilder.Employee;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Random;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public class EmployeeDBTools extends EmployeeDB {
     public EmployeeDBTools(File dataFile) throws IOException {super(dataFile);}
-    public void addEmployee(String name, int ID, String prefRole, int leadRate, int collabRate, int codS, int codD){
-        employeesList.add(new Employee(name, ID, prefRole, leadRate, collabRate, codS, codD));
+    public void addEmployee(String name, String prefRole, int leadRate, int collabRate, int codS, int codD){
+        int id = new Random().nextInt(900000) + 100000;
+        while(checkIDExists(id)){
+            id = new Random().nextInt(900000) + 100000;
+        }
+        employeesList.add(new Employee(name, id, prefRole, leadRate, collabRate, codS, codD));
+    }
+    public void removeEmployee(Employee emp){
+        employeesList.remove(emp);
+    }
+    public boolean checkIDExists(int srcID){
+        for(Employee employee : employeesList){
+            if (employee.checkID(srcID))
+                return true;
+        }
+        return false;
     }
     public Employee searchEmployeeByID(int id) throws Exception {
         for (Employee employee : employeesList) {
@@ -40,35 +56,15 @@ public class EmployeeDBTools extends EmployeeDB {
         employeesList.set(swapIndex, temp);
     }
     public void sortByCollaboration(){
-        for(int i = 0;i<employeesList.size();i++){
-            for(int j=0;j<employeesList.size()-i;j++) {
-                    if (employeesList.get(j).getCollaborationRating() <= employeesList.get(j + 1).getCollaborationRating())
-                        swapEmployees(j, j + 1);
-            }
-        }
+        employeesList.sort(Comparator.comparing(Employee::getCollaborationRating));
     }
     public void sortByCodingDesign(){
-        for(int i = 0;i<employeesList.size();i++){
-            for(int j=0;j<employeesList.size()-i;i++) {
-                if (employeesList.get(i).getCodingDesign() <= employeesList.get(i + 1).getCodingDesign())
-                    swapEmployees(i,i+1);
-            }
-        }
+        employeesList.sort(Comparator.comparing(Employee::getCodingDesign));
     }
     public void sortByCodingSpeed(){
-        for(int i = 0;i<employeesList.size();i++){
-            for(int j=0;j<employeesList.size()-i;i++) {
-                if (employeesList.get(i).getCodingSpeed() <= employeesList.get(i + 1).getCodingSpeed())
-                    swapEmployees(i,i+1);
-            }//
-        }
+        employeesList.sort(Comparator.comparing(Employee::getCodingSpeed));
     }
     public void sortByLeadership(){
-        for(int i = 0;i<employeesList.size();i++){
-            for(int j=0;j<employeesList.size()-i;i++) {
-                if (employeesList.get(i).getLeadershipRating() <= employeesList.get(i + 1).getLeadershipRating())
-                    swapEmployees(i,i+1);
-            }
-        }
+        employeesList.sort(Comparator.comparing(Employee::getLeadershipRating));
     }
 }

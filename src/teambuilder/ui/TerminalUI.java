@@ -33,5 +33,10 @@ public class TerminalUI {
     public static void displayExitOption(){
         System.out.println("Do you wish to exit? \n(1: yes/2: no)");
     }
+    public static void displayAddUpdateMenu(){
+        System.out.println("Would you like to add or remove an employee?");
+        System.out.println("1. Add an employee");
+        System.out.println("2. Remove an employee by their ID number");
+    }
 }
 

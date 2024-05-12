@@ -25,7 +25,7 @@ public class EmployeeProcessor {
     public void processMenu() throws Exception {
 
         int choice = lineReader.nextInt();
-        int exitChoice = 0;
+        int exitChoice;
         switch (choice){
             case 1:
                 this.addUpdateEmployee();
@@ -45,35 +45,68 @@ public class EmployeeProcessor {
                 break;
             default:
                 finished = true;
-                throw new Exception("Invalid input detected: " + choice);
-                //break;
+                //throw new Exception("Invalid input detected: " + choice);
+                break;
         }
         data.writeJson();
         TerminalUI.displayExitOption();
+        lineReader.nextLine();
         exitChoice = lineReader.nextInt();
         if(exitChoice == 1)
             finished = true;
+
     }
-    public void addUpdateEmployee(){
-        String name, prefRole;
-        Scanner scnr = new Scanner(System.in);
-        int ID, collab, leadership, codS, codD;
+    public void addUpdateEmployee() throws Exception {
+        TerminalUI.displayAddUpdateMenu();
+        int choice;
+        choice = lineReader.nextInt();
+        switch (choice){
+            case 1:
+                addEmployee();
+                break;
+            case 2:
+                removeEmployee();
+                break;
+            default:
+                System.out.println("Invalid Input: " + choice);
+                break;
+        }
+    }
+    public void addEmployee(){
+        String name;
+        String prefRole;
+        int collab;
+        int leadership;
+        int codS;
+        int codD;
+        lineReader.nextLine();
         System.out.println("What is the new employee's name? ");
-        name = scnr.next();
-        System.out.println("What is the new employee's ID? ");
-        ID = scnr.nextInt();
+        name = lineReader.nextLine();
         System.out.println("What is the new employee's preferred role?");
-        prefRole = scnr.nextLine();
+        prefRole = lineReader.nextLine();
         System.out.println("What is the new employee's leadership skill out of 10?");
-        leadership = scnr.nextInt();
+        leadership = lineReader.nextInt();
         System.out.println("What is the new employee's collaboration skill out of 10?");
-        collab = scnr.nextInt();
+        collab = lineReader.nextInt();
         System.out.println("What is the new employee's coding design skill out of 10?");
-        codD = scnr.nextInt();
+        codD = lineReader.nextInt();
         System.out.println("What is the new employee's coding speed out of 10?");
-        codS = scnr.nextInt();
-        data.addEmployee(name, ID, prefRole, leadership, collab, codS, codD);
-        scnr.close();
+        codS = lineReader.nextInt();
+        data.addEmployee(name, prefRole, leadership, collab, codS, codD);
+    }
+    public void removeEmployee() throws Exception {
+
+        int removeID;
+        int removeConfirmation;
+        Employee removalEmployee;
+        System.out.println("What is the ID of the employee you would like to remove?");
+        removeID = lineReader.nextInt();
+        removalEmployee = data.searchEmployeeByID(removeID);
+        System.out.println("Are you sure you would like to remove this employee permanently?");
+        System.out.println("1: yes/2: no");
+        removeConfirmation = lineReader.nextInt();
+        if(removeConfirmation == 1)
+            data.removeEmployee(removalEmployee);
     }
     public void displayEmployeeList(){
         TerminalUI.displayListSorting();
@@ -93,7 +126,6 @@ public class EmployeeProcessor {
                 data.sortByCodingSpeed();
                 break;
             case 5:
-                data.printList();
                 break;
         }
         data.printList();

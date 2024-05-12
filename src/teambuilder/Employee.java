@@ -1,6 +1,7 @@
 package teambuilder;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Employee class represents an employee in a team.
@@ -136,8 +137,7 @@ public class Employee extends Person {
      * Print only the name and ID of the employee.
      */
     public void printNameID(){
-        System.out.println(name);
-        System.out.println(id);
+        System.out.println(name + " - " + id);
 
     }
 }

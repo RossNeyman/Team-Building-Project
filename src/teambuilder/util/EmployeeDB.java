@@ -11,6 +11,7 @@ import teambuilder.Manager;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 /**
@@ -36,6 +37,7 @@ public class EmployeeDB {
         readJSON();
     }
     public void writeJson() throws IOException {
+        writer.writeValue(dataFile, "");
         mapper.writeValue(dataFile, employeesList);
     }
     /**
@@ -80,6 +82,7 @@ public class EmployeeDB {
      * @throws IOException If an I/O error occurs while reading the JSON string.
      */
     public void readJSON() throws IOException {
+
         String json = new String(Files.readAllBytes(dataFile.toPath()));
         employeesList = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(ArrayList.class, Employee.class));
     }
