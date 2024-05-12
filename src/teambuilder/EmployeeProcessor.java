@@ -131,23 +131,26 @@ public class EmployeeProcessor {
         data.printList();
     }
     public void searchEmployee() throws Exception {
-        Scanner lineRead = new Scanner(System.in);
-        int choice = lineRead.nextInt();
         TerminalUI.displaySearchOption();
         Employee retEmployee = null;
+        int choice = lineReader.nextInt();
+
         switch (choice){
             case 1:
                 TerminalUI.displaySearchInput(choice);
-                int id = lineRead.nextInt();
+                int id = lineReader.nextInt();
                 retEmployee = data.searchEmployeeByID(id);
+                break;
             case 2:
+                lineReader.nextLine();
                 TerminalUI.displaySearchInput(choice);
-                String name = lineRead.nextLine();
+                String name = lineReader.nextLine();
                 retEmployee = data.searchEmployeeByName(name);
+                break;
         }
         assert retEmployee != null;
         retEmployee.printInfo();
-        lineRead.close();
+
     }
 
 
