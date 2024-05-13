@@ -19,6 +19,7 @@ public class TeamBuilderUI {
         System.out.println("2. Remove Member");
         System.out.println("3. View Members");
         System.out.println("4. Set Maximum Team Members");
+        System.out.println("5. Display available employees and sort by attributes");
 
     }
 
@@ -34,6 +35,11 @@ public class TeamBuilderUI {
      */
     public static void memberRemove(){
         System.out.println("Enter name of the employee.");
+    }
+    public static void displayExitMenu(){
+        System.out.println("Would you like to stop building the team?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
     }
 
     /**

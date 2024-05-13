@@ -82,7 +82,6 @@ public class EmployeeDB {
      * @throws IOException If an I/O error occurs while reading the JSON string.
      */
     public void readJSON() throws IOException {
-
         String json = new String(Files.readAllBytes(dataFile.toPath()));
         employeesList = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(ArrayList.class, Employee.class));
     }

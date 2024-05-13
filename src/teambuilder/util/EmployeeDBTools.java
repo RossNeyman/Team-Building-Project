@@ -1,18 +1,35 @@
 package teambuilder.util;
 
 import teambuilder.Employee;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Collections;
 import java.util.Random;
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+
+/**
+ * Provides utility methods for managing the employee database.
+ */
 public class EmployeeDBTools extends EmployeeDB {
+    /**
+     * Constructs an EmployeeDBTools object with the specified data file.
+     *
+     * @param dataFile The data file containing employee information.
+     * @throws IOException If an I/O error occurs.
+     */
     public EmployeeDBTools(File dataFile) throws IOException {super(dataFile);}
+    /**
+     * Adds a new employee to the database with the provided information.
+     *
+     * @param name      The name of the employee.
+     * @param prefRole  The preferred role of the employee.
+     * @param leadRate  The leadership rating of the employee.
+     * @param collabRate The collaboration rating of the employee.
+     * @param codS      The coding speed rating of the employee.
+     * @param codD      The coding design rating of the employee.
+     */
     public void addEmployee(String name, String prefRole, int leadRate, int collabRate, int codS, int codD){
         int id = new Random().nextInt(900000) + 100000;
         while(checkIDExists(id)){
@@ -20,9 +37,20 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         employeesList.add(new Employee(name, id, prefRole, leadRate, collabRate, codS, codD));
     }
+    /**
+     * Removes the specified employee from the database.
+     *
+     * @param emp The employee to be removed.
+     */
     public void removeEmployee(Employee emp){
         employeesList.remove(emp);
     }
+    /**
+     * Checks if an employee with the given ID exists in the database.
+     *
+     * @param srcID The ID to be checked.
+     * @return True if an employee with the given ID exists, otherwise false.
+     */
     public boolean checkIDExists(int srcID){
         for(Employee employee : employeesList){
             if (employee.checkID(srcID))
@@ -30,6 +58,13 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         return false;
     }
+    /**
+     * Searches for an employee in the database by their ID.
+     *
+     * @param id The ID of the employee to search for.
+     * @return The employee with the specified ID.
+     * @throws Exception If the employee with the specified ID is not found.
+     */
     public Employee searchEmployeeByID(int id) throws Exception {
         for (Employee employee : employeesList) {
                 if (employee.getID() == id)
@@ -37,6 +72,13 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         throw new Exception("Employee not found");
     }
+    /**
+     * Searches for an employee in the database by their name.
+     *
+     * @param nameSrc The name of the employee to search for.
+     * @return The employee with the specified name.
+     * @throws Exception If the employee with the specified name is not found.
+     */
     public Employee searchEmployeeByName(String nameSrc) throws Exception {
         for(Employee employee : employeesList){
             if(employee.getName().equals(nameSrc))
@@ -44,27 +86,41 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         throw new Exception("Employee not found");
     }
+
+    /**
+     * Prints the list of employees in the database.
+     */
     public void printList(){
         for(Employee employee : employeesList){
             employee.printNameID();
         }
     }
-    public void swapEmployees(int currentIndex, int swapIndex){
-        Employee temp;
-        temp = employeesList.get(currentIndex);
-        employeesList.set(currentIndex, employeesList.get(swapIndex));
-        employeesList.set(swapIndex, temp);
-    }
+    /**
+     * Sorts the list of employees in the database by collaboration rating.
+     */
     public void sortByCollaboration(){
         employeesList.sort(Comparator.comparing(Employee::getCollaborationRating));
+        Collections.reverse(employeesList);
     }
+    /**
+     * Sorts the list of employees in the database by coding design rating.
+     */
     public void sortByCodingDesign(){
         employeesList.sort(Comparator.comparing(Employee::getCodingDesign));
+        Collections.reverse(employeesList);
     }
+    /**
+     * Sorts the list of employees in the database by coding speed rating.
+     */
     public void sortByCodingSpeed(){
         employeesList.sort(Comparator.comparing(Employee::getCodingSpeed));
+        Collections.reverse(employeesList);
     }
+    /**
+     * Sorts the list of employees in the database by leadership rating.
+     */
     public void sortByLeadership(){
         employeesList.sort(Comparator.comparing(Employee::getLeadershipRating));
+        Collections.reverse(employeesList);
     }
 }

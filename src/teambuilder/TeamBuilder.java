@@ -34,12 +34,12 @@ public class TeamBuilder{
      */
     public void addMember(Employee worker) throws ArithmeticException{
 
-        if(memberCount < maxMembers){
+        if(memberCount <= maxMembers){
             try{
-                if(worker.equals(tool.searchEmployeeByName(worker.getName()))){
+
                     teamList.add(worker);
                     memberCount++;
-                }
+
             }
             catch(Exception except){
                 System.out.println(except.getMessage()); // TODO consider writing a function to display all exception messages.
@@ -70,8 +70,10 @@ public class TeamBuilder{
             System.out.println("No members in team");
         }
         else{
-            for(int count = 0; count < memberCount; count++){
-                System.out.println(teamList.get(count));
+            for(Employee member : teamList){
+               member.printNameID();
+               System.out.println(member.getPreferredRole());
+               System.out.println();
             }
         }
 

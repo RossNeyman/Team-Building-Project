@@ -2,23 +2,18 @@ package teambuilder;
 import java.io.IOException;
 import java.util.Scanner;
 import java.io.File;
-
 import teambuilder.ui.TerminalUI;
-import teambuilder.TeamBuilder;
-import teambuilder.util.EmployeeDB;
 import teambuilder.util.EmployeeDBTools;
 import teambuilder.ui.TeamBuilderUI;
 
-//TODO if a method uses a throws keyword the exception has to be caught and handled by the method call.
+
 public class EmployeeProcessor {
 
-    //private File dataFile;
+
     private boolean finished = false;
     private final Scanner lineReader = new Scanner(System.in);
     EmployeeDBTools data;
-    //private TeamBuilder team = new TeamBuilder(data);
     public EmployeeProcessor(File dataFile) throws IOException {
-       // this.dataFile = dataFile;
         data = new EmployeeDBTools(dataFile);
     }
     public boolean getFinishedStatus() {return finished;}
@@ -159,49 +154,57 @@ public class EmployeeProcessor {
      */
     public void buildTeam(){
         TeamBuilder team = new TeamBuilder(data);
-        Scanner lineRead = new Scanner(System.in);
         int max;
         String name;
-        int choice = lineRead.nextInt();
-        TeamBuilderUI.displayMenu();
+        int exitChoice = 0;
 
-        switch(choice){
-            case 1:
-                try{
-                    TeamBuilderUI.memberAdd();
-                    name = lineRead.next();
-                    team.addMember(data.searchEmployeeByName(name));
+        while(exitChoice != 1) {
+            TeamBuilderUI.displayMenu();
+            int choice = lineReader.nextInt();
+            lineReader.nextLine();
+            switch (choice) {
+                case 1:
+                    try {
+                        TeamBuilderUI.memberAdd();
+                        name = lineReader.nextLine();
+                        team.addMember(data.searchEmployeeByName(name));
+                        break;
+                    } catch (ArithmeticException except) {
+                        TeamBuilderUI.displayExceptionMessage(except);
+                    } catch (Exception except) {
+                    }
                     break;
-                }
-                catch(ArithmeticException except){
-                    TeamBuilderUI.displayExceptionMessage(except);
-                }
-                catch(Exception except){}
-            case 2:
-                try{
-                    TeamBuilderUI.memberRemove();
-                    name = lineRead.next();
-                    team.removeMember(data.searchEmployeeByName(name));
+                case 2:
+                    try {
+                        TeamBuilderUI.memberRemove();
+                        name = lineReader.nextLine();
+                        team.removeMember(data.searchEmployeeByName(name));
+                        break;
+                    } catch (Exception except) {
+                        TeamBuilderUI.displayExceptionMessage(except);
+                    }
                     break;
-                }
-                catch(Exception except){
-                    TeamBuilderUI.displayExceptionMessage(except);
-                }
-            case 3:
-                TeamBuilderUI.memberView(); // displays option to view members
-                team.viewMembers();
-                break;
-            case 4:
-                try{
-                    TeamBuilderUI.maxMemberSet(); // the default max is 8
-                    max = lineRead.nextInt();
-                    team.setMaxMembers(max);
+                case 3:
+                    TeamBuilderUI.memberView(); // displays option to view members
+                    team.viewMembers();
                     break;
-                }
-                catch(IllegalArgumentException except){
-                    TeamBuilderUI.displayExceptionMessage(except);
-                }
+                case 4:
+                    try {
+                        TeamBuilderUI.maxMemberSet(); // the default max is 8
+                        max = lineReader.nextInt();
+                        team.setMaxMembers(max);
+                        break;
+                    } catch (IllegalArgumentException except) {
+                        TeamBuilderUI.displayExceptionMessage(except);
+                    }
+                    break;
+                case 5:
+                    displayEmployeeList();
+                    break;
+            }
+
+            TeamBuilderUI.displayExitMenu();
+            exitChoice = lineReader.nextInt();
         }
-        lineRead.close();
     }
 }

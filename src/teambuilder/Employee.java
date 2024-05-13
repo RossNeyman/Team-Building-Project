@@ -1,7 +1,5 @@
 package teambuilder;
 
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Employee class represents an employee in a team.
