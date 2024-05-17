@@ -29,14 +29,13 @@ public class TeamBuilder{
     /**
      * Adds new member to the team.
      * To add an employee the memberCount must be less than maxMembers.
-     * The employee to be added must also exist in the employees data base.
+     * The employee to be added must also exist in the employee database.
      * @param worker info of employee to be added to the team.
      */
     public void addMember(Employee worker) throws ArithmeticException{
 
         if(memberCount <= maxMembers){
             try{
-
                     teamList.add(worker);
                     memberCount++;
 

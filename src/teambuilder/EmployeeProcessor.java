@@ -5,7 +5,11 @@ import java.io.File;
 import teambuilder.ui.TerminalUI;
 import teambuilder.util.EmployeeDBTools;
 import teambuilder.ui.TeamBuilderUI;
-
+/**
+ * The EmployeeProcessor class handles the main logic for processing employee data.
+ * It interacts with the user through a terminal interface and performs various operations
+ * such as adding, removing, and searching for employees, as well as building teams.
+ */
 
 public class EmployeeProcessor {
 
@@ -13,10 +17,26 @@ public class EmployeeProcessor {
     private boolean finished = false;
     private final Scanner lineReader = new Scanner(System.in);
     EmployeeDBTools data;
+    /**
+     * Constructs an EmployeeProcessor with the specified data file.
+     *
+     * @param dataFile The file containing employee data.
+     * @throws IOException if there is an error reading the data file.
+     */
     public EmployeeProcessor(File dataFile) throws IOException {
         data = new EmployeeDBTools(dataFile);
     }
+    /**
+     * Returns the finished status of the EmployeeProcessor.
+     *
+     * @return true if the processing is finished, false otherwise.
+     */
     public boolean getFinishedStatus() {return finished;}
+    /**
+     * Processes the menu options selected by the user and performs the corresponding actions.
+     *
+     * @throws Exception if there is an error processing the menu.
+     */
     public void processMenu() throws Exception {
 
         int choice = lineReader.nextInt();
@@ -51,6 +71,12 @@ public class EmployeeProcessor {
             finished = true;
 
     }
+
+    /**
+     * Displays the menu for adding or updating an employee and processes the user's choice.
+     *
+     * @throws Exception if there is an error adding or updating the employee.
+     */
     public void addUpdateEmployee() throws Exception {
         TerminalUI.displayAddUpdateMenu();
         int choice;
@@ -67,6 +93,9 @@ public class EmployeeProcessor {
                 break;
         }
     }
+    /**
+     * Adds a new employee based on the user input.
+     */
     public void addEmployee(){
         String name;
         String prefRole;
@@ -89,6 +118,11 @@ public class EmployeeProcessor {
         codS = lineReader.nextInt();
         data.addEmployee(name, prefRole, leadership, collab, codS, codD);
     }
+    /**
+     * Removes an employee based on the user input.
+     *
+     * @throws Exception if there is an error removing the employee.
+     */
     public void removeEmployee() throws Exception {
 
         int removeID;
@@ -103,6 +137,9 @@ public class EmployeeProcessor {
         if(removeConfirmation == 1)
             data.removeEmployee(removalEmployee);
     }
+    /**
+     * Displays the list of employees, sorted based on the user's choice.
+     */
     public void displayEmployeeList(){
         TerminalUI.displayListSorting();
         int choice = lineReader.nextInt();
@@ -125,6 +162,11 @@ public class EmployeeProcessor {
         }
         data.printList();
     }
+    /**
+     * Searches for an employee based on the user's input and displays their information.
+     *
+     * @throws Exception if there is an error searching for the employee.
+     */
     public void searchEmployee() throws Exception {
         TerminalUI.displaySearchOption();
         Employee retEmployee = null;
@@ -150,7 +192,8 @@ public class EmployeeProcessor {
 
 
     /**
-     * Combines TeamBuilderUI and TeamBuilder classes for user interaction.
+     * Handles the team-building process, allowing the user to add or remove members,
+     * set the maximum number of members, and view the current team.
      */
     public void buildTeam(){
         TeamBuilder team = new TeamBuilder(data);
