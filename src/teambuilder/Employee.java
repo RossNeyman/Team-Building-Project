@@ -11,6 +11,7 @@ public class Employee extends Person {
     private int codingSpeed; // Rating of coding speed (out of 10)
     private int codingDesign; // Rating of coding design (out of 10)
     private String preferredRole; // Preferred role in the team
+    private int score; // attribute score.
 
     /**
      * Default constructor initializes attributes to default values.
@@ -22,16 +23,17 @@ public class Employee extends Person {
         codingSpeed = 0;
         codingDesign = 0;
         preferredRole = null;
+        score = 0;
     }
 
     /**
      * Parameterized constructor initializes attributes with provided values.
      *
-     * @param n Name of the employee.
-     * @param id ID of the employee.
-     * @param p Preferred role of the employee.
-     * @param l Leadership rating of the employee.
-     * @param col Collaboration rating of the employee.
+     * @param n    Name of the employee.
+     * @param id   ID of the employee.
+     * @param p    Preferred role of the employee.
+     * @param l    Leadership rating of the employee.
+     * @param col  Collaboration rating of the employee.
      * @param codS Coding speed rating of the employee.
      * @param codD Coding design rating of the employee.
      */
@@ -44,6 +46,7 @@ public class Employee extends Person {
         codingSpeed = codS;
         codingDesign = codD;
         preferredRole = p;
+        score = l + col + codS + codD; //the score is only calculated when a new employee is added to the database.
     }
 
     // Getter and setter methods
@@ -117,6 +120,7 @@ public class Employee extends Person {
      * @param s The new preferred role to set.
      */
     public void setPreferredRole(String s) {preferredRole = s;}
+    public int getScore(){return score;}
 
     /**
      * Print detailed information about the employee.
@@ -129,6 +133,7 @@ public class Employee extends Person {
         System.out.println("Collaboration Rating: " + collaborationRating + "/10");
         System.out.println("Coding Speed Rating: " + codingSpeed + "/10");
         System.out.println("Code Design Rating: " + codingDesign + "/10");
+        System.out.println("Employee Score: " + score);
     }
 
     /**
