@@ -1,4 +1,5 @@
 package teambuilder.ui;
+
 /**
  * The TerminalUI class provides methods for displaying user interface elements and options in a terminal-based interface.
  */
@@ -19,6 +20,7 @@ public class TerminalUI {
         System.out.println("4. Assemble a team of employees");
         System.out.println("5. Close program");
     }
+
     /**
      * Displays options for sorting employee lists.
      */
@@ -38,6 +40,7 @@ public class TerminalUI {
         System.out.println("1. ID");
         System.out.println("2. Name");
     }
+
     /**
      * Displays the input prompt for searching employees based on the given choice.
      *
@@ -49,13 +52,14 @@ public class TerminalUI {
         else
             System.out.print("Please enter Name: ");
     }
+
     /**
      * Displays the option for exiting the program.
      */
-
     public static void displayExitOption(){
         System.out.println("Do you wish to exit? \n(1: yes/2: no)");
     }
+
     /**
      * Displays options for adding or removing employees.
      */
@@ -63,6 +67,7 @@ public class TerminalUI {
         System.out.println("Would you like to add or remove an employee?");
         System.out.println("1. Add an employee");
         System.out.println("2. Remove an employee by their ID number");
+        System.out.println("3. Update employees info by ID number");
     }
 }
 

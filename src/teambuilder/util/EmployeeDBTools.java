@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 /**
  * Provides utility methods for managing the employee database.
  */
+
+//TODO write edit employee method.
 public class EmployeeDBTools extends EmployeeDB {
     /**
      * Constructs an EmployeeDBTools object with the specified data file.
@@ -20,15 +22,16 @@ public class EmployeeDBTools extends EmployeeDB {
      * @throws IOException If an I/O error occurs.
      */
     public EmployeeDBTools(File dataFile) throws IOException {super(dataFile);}
+
     /**
      * Adds a new employee to the database with the provided information.
      *
-     * @param name      The name of the employee.
-     * @param prefRole  The preferred role of the employee.
-     * @param leadRate  The leadership rating of the employee.
+     * @param name       The name of the employee.
+     * @param prefRole   The preferred role of the employee.
+     * @param leadRate   The leadership rating of the employee.
      * @param collabRate The collaboration rating of the employee.
-     * @param codS      The coding speed rating of the employee.
-     * @param codD      The coding design rating of the employee.
+     * @param codS       The coding speed rating of the employee.
+     * @param codD       The coding design rating of the employee.
      */
     public void addEmployee(String name, String prefRole, int leadRate, int collabRate, int codS, int codD){
         int id = new Random().nextInt(900000) + 100000;
@@ -37,6 +40,7 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         employeesList.add(new Employee(name, id, prefRole, leadRate, collabRate, codS, codD));
     }
+
     /**
      * Removes the specified employee from the database.
      *
@@ -45,6 +49,18 @@ public class EmployeeDBTools extends EmployeeDB {
     public void removeEmployee(Employee emp){
         employeesList.remove(emp);
     }
+
+
+    /**
+     * Updates stored info in employeesList.
+     * @param current
+     * @param changed
+     */
+    public void changeEmployeeInfo(Employee current, Employee changed){
+        int index = employeesList.indexOf(current);
+        employeesList.set(index, changed);
+    }
+
     /**
      * Checks if an employee with the given ID exists in the database.
      *
@@ -58,6 +74,7 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         return false;
     }
+
     /**
      * Searches for an employee in the database by their ID.
      *
@@ -72,6 +89,7 @@ public class EmployeeDBTools extends EmployeeDB {
         }
         throw new Exception("Employee not found");
     }
+
     /**
      * Searches for an employee in the database by their name.
      *
@@ -95,6 +113,7 @@ public class EmployeeDBTools extends EmployeeDB {
             employee.printNameID();
         }
     }
+
     /**
      * Sorts the list of employees in the database by collaboration rating.
      */
@@ -102,6 +121,7 @@ public class EmployeeDBTools extends EmployeeDB {
         employeesList.sort(Comparator.comparing(Employee::getCollaborationRating));
         Collections.reverse(employeesList);
     }
+
     /**
      * Sorts the list of employees in the database by coding design rating.
      */
@@ -109,6 +129,7 @@ public class EmployeeDBTools extends EmployeeDB {
         employeesList.sort(Comparator.comparing(Employee::getCodingDesign));
         Collections.reverse(employeesList);
     }
+
     /**
      * Sorts the list of employees in the database by coding speed rating.
      */
@@ -116,6 +137,7 @@ public class EmployeeDBTools extends EmployeeDB {
         employeesList.sort(Comparator.comparing(Employee::getCodingSpeed));
         Collections.reverse(employeesList);
     }
+
     /**
      * Sorts the list of employees in the database by leadership rating.
      */

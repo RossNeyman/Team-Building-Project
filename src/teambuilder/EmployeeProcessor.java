@@ -5,37 +5,42 @@ import java.io.File;
 import teambuilder.ui.TerminalUI;
 import teambuilder.util.EmployeeDBTools;
 import teambuilder.ui.TeamBuilderUI;
-/**
- * The EmployeeProcessor class handles the main logic for processing employee data.
- * It interacts with the user through a terminal interface and performs various operations
- * such as adding, removing, and searching for employees, as well as building teams.
- */
 
+
+/**
+ * The type Employee processor.
+ */
 public class EmployeeProcessor {
 
 
     private boolean finished = false;
     private final Scanner lineReader = new Scanner(System.in);
-    EmployeeDBTools data;
     /**
-     * Constructs an EmployeeProcessor with the specified data file.
+     * The Data.
+     */
+    EmployeeDBTools data;
+
+    /**
+     * Instantiates a new Employee processor.
      *
-     * @param dataFile The file containing employee data.
-     * @throws IOException if there is an error reading the data file.
+     * @param dataFile the data file
+     * @throws IOException the io exception
      */
     public EmployeeProcessor(File dataFile) throws IOException {
         data = new EmployeeDBTools(dataFile);
     }
+
     /**
-     * Returns the finished status of the EmployeeProcessor.
+     * Gets finished status.
      *
-     * @return true if the processing is finished, false otherwise.
+     * @return the finished status
      */
     public boolean getFinishedStatus() {return finished;}
+
     /**
-     * Processes the menu options selected by the user and performs the corresponding actions.
+     * Process menu.
      *
-     * @throws Exception if there is an error processing the menu.
+     * @throws Exception the exception
      */
     public void processMenu() throws Exception {
 
@@ -73,14 +78,15 @@ public class EmployeeProcessor {
     }
 
     /**
-     * Displays the menu for adding or updating an employee and processes the user's choice.
+     * Add update employee.
      *
-     * @throws Exception if there is an error adding or updating the employee.
+     * @throws Exception the exception
      */
     public void addUpdateEmployee() throws Exception {
         TerminalUI.displayAddUpdateMenu();
         int choice;
         choice = lineReader.nextInt();
+        //TODO method is missing update feature.
         switch (choice){
             case 1:
                 addEmployee();
@@ -88,13 +94,64 @@ public class EmployeeProcessor {
             case 2:
                 removeEmployee();
                 break;
+            case 3:
+                updateInfo();
             default:
                 System.out.println("Invalid Input: " + choice);
                 break;
         }
     }
+
     /**
-     * Adds a new employee based on the user input.
+     * Updates an employee's information.
+     * The information is updated via a call to a chnage function.
+     */
+    public void updateInfo(){// is working.
+        int id;
+        Employee curr;
+        Employee diff;
+        lineReader.nextLine();
+        System.out.println("Enter the employees ID: ");
+        id = lineReader.nextInt();// should consider adding try catch to handle missmatch values.
+
+        // Now check if id is in the database.
+        try{
+            curr = data.searchEmployeeByID(id);
+            if(curr.getID() == id){
+                String n; // name
+                int codS; // coding speed
+                int codD; // coding design
+                int collab;
+                int leadership;
+                String prefRole;
+                // is missing position.
+                lineReader.nextLine();//clear input stream.
+                //TODO consider what happens if the value entered is less  than 0 or greater than 10.
+                System.out.println("Enter the employees new name: ");
+                n = lineReader.nextLine();
+                System.out.println("Enter the employees new position: ");
+                prefRole = lineReader.nextLine();
+                System.out.println("Enter employees new coding speed rating: ");
+                codS = lineReader.nextInt();
+                System.out.println("Enter employees new coding design rating: ");
+                codD = lineReader.nextInt();
+                System.out.println("Enter employees new collobratiopn rating: ");
+                collab = lineReader.nextInt();
+                System.out.println("Enter employees new leadership rating: ");
+                leadership = lineReader.nextInt();
+
+                diff = new Employee(n, id, prefRole, leadership, collab, codS, codD);
+                data.changeEmployeeInfo(curr, diff);
+
+            }
+        }
+        catch(Exception excpt){
+            System.out.println(excpt.getMessage());
+        }
+    }
+
+    /**
+     * Adds an employee to the database.
      */
     public void addEmployee(){
         String name;
@@ -118,10 +175,11 @@ public class EmployeeProcessor {
         codS = lineReader.nextInt();
         data.addEmployee(name, prefRole, leadership, collab, codS, codD);
     }
+
     /**
-     * Removes an employee based on the user input.
+     * Remove an employee from the database.
      *
-     * @throws Exception if there is an error removing the employee.
+     * @throws Exception the exception
      */
     public void removeEmployee() throws Exception {
 
@@ -137,8 +195,9 @@ public class EmployeeProcessor {
         if(removeConfirmation == 1)
             data.removeEmployee(removalEmployee);
     }
+
     /**
-     * Displays the list of employees, sorted based on the user's choice.
+     * Display employee list.
      */
     public void displayEmployeeList(){
         TerminalUI.displayListSorting();
@@ -162,10 +221,11 @@ public class EmployeeProcessor {
         }
         data.printList();
     }
+
     /**
-     * Searches for an employee based on the user's input and displays their information.
+     * Search employee.
      *
-     * @throws Exception if there is an error searching for the employee.
+     * @throws Exception the exception
      */
     public void searchEmployee() throws Exception {
         TerminalUI.displaySearchOption();
@@ -192,8 +252,7 @@ public class EmployeeProcessor {
 
 
     /**
-     * Handles the team-building process, allowing the user to add or remove members,
-     * set the maximum number of members, and view the current team.
+     * Combines TeamBuilderUI and TeamBuilder classes for user interaction.
      */
     public void buildTeam(){
         TeamBuilder team = new TeamBuilder(data);
@@ -234,6 +293,7 @@ public class EmployeeProcessor {
                 case 4:
                     try {
                         TeamBuilderUI.maxMemberSet(); // the default max is 8
+                        //TODO add call to suggest algo set max member count here, if possible.
                         max = lineReader.nextInt();
                         team.setMaxMembers(max);
                         break;
