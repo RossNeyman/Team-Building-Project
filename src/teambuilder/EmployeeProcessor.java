@@ -15,6 +15,11 @@ public class EmployeeProcessor {
 
     private boolean finished = false;
     private final Scanner lineReader = new Scanner(System.in);
+    //max and min vals for individual attribute rating.
+    private final int minVal = 0;
+    private final int maxVal = 10;
+    //entryPrompt initial size is 6.
+    private final String[] entryPrompts = {"What is the employee's name? ", "What is the employee's preferred role? ", "What is the employee's leadership skill out of 10? ", "What is the employee's collaboration skill out of 10? ", "What is the employee's coding design skill out of 10? ", "What is the employee's coding speed out of 10? "};
     /**
      * The Data.
      */
@@ -44,6 +49,7 @@ public class EmployeeProcessor {
      */
     public void processMenu() throws Exception {
 
+        // TODO When anything other than a number is typed the program terminates, should be fixed.
         int choice = lineReader.nextInt();
         int exitChoice;
         switch (choice){
@@ -86,7 +92,6 @@ public class EmployeeProcessor {
         TerminalUI.displayAddUpdateMenu();
         int choice;
         choice = lineReader.nextInt();
-        //TODO method is missing update feature.
         switch (choice){
             case 1:
                 addEmployee();
@@ -104,16 +109,17 @@ public class EmployeeProcessor {
 
     /**
      * Updates an employee's information.
-     * The information is updated via a call to a chnage function.
+     * The information is updated via a call to a change function.
      */
     public void updateInfo(){// is working.
+        int input; // temp storage for user input before checking if value is valid.
+
         int id;
         Employee curr;
         Employee diff;
         lineReader.nextLine();
         System.out.println("Enter the employees ID: ");
         id = lineReader.nextInt();// should consider adding try catch to handle missmatch values.
-
         // Now check if id is in the database.
         try{
             curr = data.searchEmployeeByID(id);
@@ -124,21 +130,30 @@ public class EmployeeProcessor {
                 int collab;
                 int leadership;
                 String prefRole;
-                // is missing position.
+
                 lineReader.nextLine();//clear input stream.
-                //TODO consider what happens if the value entered is less  than 0 or greater than 10.
+                //TODO consider writing function to reduce the following code duplication, handling the info input.
                 System.out.println("Enter the employees new name: ");
                 n = lineReader.nextLine();
+
                 System.out.println("Enter the employees new position: ");
                 prefRole = lineReader.nextLine();
-                System.out.println("Enter employees new coding speed rating: ");
-                codS = lineReader.nextInt();
-                System.out.println("Enter employees new coding design rating: ");
-                codD = lineReader.nextInt();
-                System.out.println("Enter employees new collobratiopn rating: ");
-                collab = lineReader.nextInt();
+
                 System.out.println("Enter employees new leadership rating: ");
-                leadership = lineReader.nextInt();
+                input = lineReader.nextInt();
+                leadership = validInput(input, minVal, maxVal, entryPrompts[2]);
+
+                System.out.println("Enter employees new collaboration rating: ");
+                input = lineReader.nextInt();
+                collab = validInput(input, minVal, maxVal, entryPrompts[3]);
+
+                System.out.println("Enter employees new code design rating: ");
+                input = lineReader.nextInt();
+                codD = validInput(input, minVal, maxVal, entryPrompts[4]);
+
+                System.out.println("Enter employees new coding speed rating: ");
+                input = lineReader.nextInt();
+                codS = validInput(input, minVal, maxVal, entryPrompts[5]);
 
                 diff = new Employee(n, id, prefRole, leadership, collab, codS, codD);
                 data.changeEmployeeInfo(curr, diff);
@@ -151,9 +166,36 @@ public class EmployeeProcessor {
     }
 
     /**
+     * determines if int type user-input is valid based on specified range.
+     * If the input is invalid the user will be prompted with the same prompt until a valid input is entered.
+     * @param input the user entered value.
+     * @param min the minimum accepted value.
+     * @param max the maximum accepted value.
+     * @param prompt the current prompt.
+     * @return input if it is deemed to be valid.
+     */
+    private int validInput(int input, int min, int max, String prompt){
+        boolean valid;
+        //maybe the throws is un-nessasary
+        do{
+            if(input > (min - 1) && input < (max + 1)){
+                valid = true;
+            }
+            else{
+                valid = false;
+                System.out.println("Invalid input " + prompt);
+                input = lineReader.nextInt();
+            }
+        }
+        while(!valid);
+        return input;
+    }
+
+    /**
      * Adds an employee to the database.
      */
     public void addEmployee(){
+        int input;
         String name;
         String prefRole;
         int collab;
@@ -161,18 +203,29 @@ public class EmployeeProcessor {
         int codS;
         int codD;
         lineReader.nextLine();
+
         System.out.println("What is the new employee's name? ");
         name = lineReader.nextLine();
+
         System.out.println("What is the new employee's preferred role?");
         prefRole = lineReader.nextLine();
-        System.out.println("What is the new employee's leadership skill out of 10?");
-        leadership = lineReader.nextInt();
+
+        System.out.println("What is the new employee's leadership skill out of 10?");// the text can be replaced with entryPrompts
+        input = lineReader.nextInt();
+        leadership = validInput(input, minVal, maxVal, entryPrompts[2]);
+
         System.out.println("What is the new employee's collaboration skill out of 10?");
-        collab = lineReader.nextInt();
+        input = lineReader.nextInt();
+        collab = validInput(input, minVal, maxVal, entryPrompts[3]);
+
         System.out.println("What is the new employee's coding design skill out of 10?");
-        codD = lineReader.nextInt();
+        input = lineReader.nextInt();
+        codD = validInput(input, minVal, maxVal, entryPrompts[4]);
+
         System.out.println("What is the new employee's coding speed out of 10?");
-        codS = lineReader.nextInt();
+        input = lineReader.nextInt();
+        codS = validInput(input, minVal, maxVal, entryPrompts[5]);
+
         data.addEmployee(name, prefRole, leadership, collab, codS, codD);
     }
 
