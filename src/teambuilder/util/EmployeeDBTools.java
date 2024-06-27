@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
  * Provides utility methods for managing the employee database.
  */
 
-//TODO write edit employee method.
 public class EmployeeDBTools extends EmployeeDB {
     /**
      * Constructs an EmployeeDBTools object with the specified data file.
@@ -143,6 +142,11 @@ public class EmployeeDBTools extends EmployeeDB {
      */
     public void sortByLeadership(){
         employeesList.sort(Comparator.comparing(Employee::getLeadershipRating));
+        Collections.reverse(employeesList);
+    }
+
+    public void sortByScore(){
+        employeesList.sort(Comparator.comparing(Employee::getScore));
         Collections.reverse(employeesList);
     }
 }

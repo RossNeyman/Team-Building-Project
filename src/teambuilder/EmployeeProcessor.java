@@ -270,6 +270,7 @@ public class EmployeeProcessor {
                 data.sortByCodingSpeed();
                 break;
             case 5:
+                data.sortByScore();
                 break;
         }
         data.printList();

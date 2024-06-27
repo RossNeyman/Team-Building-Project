@@ -30,6 +30,7 @@ public class TerminalUI {
         System.out.println("2. Collaborative skill");
         System.out.println("3. Overall code design");
         System.out.println("4. Coding speed");
+        System.out.println("5. Employee Score");
     }
 
     /**
