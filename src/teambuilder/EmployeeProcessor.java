@@ -1,6 +1,7 @@
 package teambuilder;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Stack;
 import java.io.File;
 import teambuilder.ui.TerminalUI;
 import teambuilder.util.EmployeeDBTools;
@@ -19,6 +20,7 @@ public class EmployeeProcessor {
     private final int minVal = 0;
     private final int maxVal = 10;
     //entryPrompt initial size is 6.
+    private Stack<Integer> inputStack = new Stack();
     private final String[] entryPrompts = {"What is the employee's name? ", "What is the employee's preferred role? ", "What is the employee's leadership skill out of 10? ", "What is the employee's collaboration skill out of 10? ", "What is the employee's coding design skill out of 10? ", "What is the employee's coding speed out of 10? "};
     /**
      * The Data.
@@ -112,11 +114,12 @@ public class EmployeeProcessor {
      * The information is updated via a call to a change function.
      */
     public void updateInfo(){// is working.
-        int input; // temp storage for user input before checking if value is valid.
+        inputStack.clear();
 
         int id;
         Employee curr;
         Employee diff;
+
         lineReader.nextLine();
         System.out.println("Enter the employees ID: ");
         id = lineReader.nextInt();// should consider adding try catch to handle missmatch values.
@@ -125,37 +128,20 @@ public class EmployeeProcessor {
             curr = data.searchEmployeeByID(id);
             if(curr.getID() == id){
                 String n; // name
-                int codS; // coding speed
-                int codD; // coding design
-                int collab;
-                int leadership;
                 String prefRole;
 
                 lineReader.nextLine();//clear input stream.
-                //TODO consider writing function to reduce the following code duplication, handling the info input.
+
                 System.out.println("Enter the employees new name: ");
                 n = lineReader.nextLine();
 
                 System.out.println("Enter the employees new position: ");
                 prefRole = lineReader.nextLine();
 
-                System.out.println("Enter employees new leadership rating: ");
-                input = lineReader.nextInt();
-                leadership = validInput(input, minVal, maxVal, entryPrompts[2]);
+                inputEntry(inputStack);
 
-                System.out.println("Enter employees new collaboration rating: ");
-                input = lineReader.nextInt();
-                collab = validInput(input, minVal, maxVal, entryPrompts[3]);
-
-                System.out.println("Enter employees new code design rating: ");
-                input = lineReader.nextInt();
-                codD = validInput(input, minVal, maxVal, entryPrompts[4]);
-
-                System.out.println("Enter employees new coding speed rating: ");
-                input = lineReader.nextInt();
-                codS = validInput(input, minVal, maxVal, entryPrompts[5]);
-
-                diff = new Employee(n, id, prefRole, leadership, collab, codS, codD);
+                //inputStack entry order. Leadership, collaboration, coding speed, coding design.
+                diff = new Employee(n, id, prefRole, inputStack.get(0), inputStack.get(1), inputStack.get(2), inputStack.get(3));
                 data.changeEmployeeInfo(curr, diff);
 
             }
@@ -163,6 +149,23 @@ public class EmployeeProcessor {
         catch(Exception excpt){
             System.out.println(excpt.getMessage());
         }
+    }
+
+    /**
+     * Continuosuly prompts users for input.
+     * This methods object is to reduce the redundancy of the employee attribute input, across the updateInfo and addEmployee methods.
+     * @param s1 stack to store input
+     */
+    private void inputEntry(Stack<Integer> s1){
+        //maybe the function can return an arraylist containing string data.
+        //6 should be replaced by a variable representing the length of the entryPrompts array.
+        int input;
+        for(int i = 2; i < 6; i++){
+            System.out.println(entryPrompts[i]);
+            input = lineReader.nextInt();
+            s1.push(validInput(input, minVal, maxVal, entryPrompts[i]));
+        }
+
     }
 
     /**
@@ -195,13 +198,10 @@ public class EmployeeProcessor {
      * Adds an employee to the database.
      */
     public void addEmployee(){
-        int input;
+        inputStack.clear();
         String name;
         String prefRole;
-        int collab;
-        int leadership;
-        int codS;
-        int codD;
+
         lineReader.nextLine();
 
         System.out.println("What is the new employee's name? ");
@@ -210,23 +210,8 @@ public class EmployeeProcessor {
         System.out.println("What is the new employee's preferred role?");
         prefRole = lineReader.nextLine();
 
-        System.out.println("What is the new employee's leadership skill out of 10?");// the text can be replaced with entryPrompts
-        input = lineReader.nextInt();
-        leadership = validInput(input, minVal, maxVal, entryPrompts[2]);
-
-        System.out.println("What is the new employee's collaboration skill out of 10?");
-        input = lineReader.nextInt();
-        collab = validInput(input, minVal, maxVal, entryPrompts[3]);
-
-        System.out.println("What is the new employee's coding design skill out of 10?");
-        input = lineReader.nextInt();
-        codD = validInput(input, minVal, maxVal, entryPrompts[4]);
-
-        System.out.println("What is the new employee's coding speed out of 10?");
-        input = lineReader.nextInt();
-        codS = validInput(input, minVal, maxVal, entryPrompts[5]);
-
-        data.addEmployee(name, prefRole, leadership, collab, codS, codD);
+        inputEntry(inputStack);
+        data.addEmployee(name, prefRole, inputStack.get(0), inputStack.get(1), inputStack.get(2), inputStack.get(3));
     }
 
     /**
