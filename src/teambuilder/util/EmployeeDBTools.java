@@ -2,9 +2,7 @@ package teambuilder.util;
 
 import teambuilder.Employee;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -14,6 +12,7 @@ import java.io.FileNotFoundException;
  */
 
 public class EmployeeDBTools extends EmployeeDB {
+    private HashMap<Integer, Integer> Scores;
     /**
      * Constructs an EmployeeDBTools object with the specified data file.
      *
@@ -164,5 +163,42 @@ public class EmployeeDBTools extends EmployeeDB {
     public void sortByScore(){
         employeesList.sort(Comparator.comparing(Employee::getScore));
         Collections.reverse(employeesList);
+    }
+
+    /**
+     * The scores of each employee is mapped by their frequency in the employeeList database.
+     */
+    private void mapScores() throws Exception{
+        HashMap<Integer, Integer> mappedScores = new HashMap<>();
+        ArrayList<Integer> scores = new ArrayList();
+        int n = employeesList.size();
+
+        for(int i = 0; i < n; i++){
+            scores.add(employeesList.get(i).getScore());
+        }
+
+        if(n > 1){
+            for(int i = 0; i < n; i++){
+                // This is working solution.
+                mappedScores.putIfAbsent(scores.get(i), Collections.frequency(
+                        scores, scores.get(i)));
+            }
+            Scores = mappedScores;
+        }
+        else throw new Exception("Employee database is empty.");
+    }
+
+    /**
+     * Retrieves a map with all the scores in the employee database.
+     * @return
+     */
+    public HashMap<Integer, Integer> getScores() throws Exception{
+        try{
+            mapScores(); // currently a bad way to do it, but it provides all current values when called.
+            return Scores;
+        }
+        catch(Exception excpt){
+            throw new Exception(excpt.getMessage());
+        }
     }
 }
