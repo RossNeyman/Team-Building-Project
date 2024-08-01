@@ -105,6 +105,22 @@ public class EmployeeDBTools extends EmployeeDB {
     }
 
     /**
+     * Searches for an employee in database with the provided score.
+     * While scores are not unique, this is helpful in employee suggestions.
+     * @param score
+     * @return
+     * @throws Exception
+     */
+    public Employee searchEmployeeByScore(int score) throws Exception{
+        for(Employee employee :employeesList){
+            if(employee.getScore() == score){
+                return employee;
+            }
+        }
+        throw new Exception("Score does not exist");
+    }
+
+    /**
      * Prints the list of employees in the database.
      */
     public void printList(){
