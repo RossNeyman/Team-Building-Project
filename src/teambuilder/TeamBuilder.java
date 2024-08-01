@@ -92,4 +92,12 @@ public class TeamBuilder{
         }
     }
 
+    /**
+     * Returns the teams current member count.
+     * @return
+     */
+    public int getMemberCount(){
+        return memberCount;
+    }
+
     }
