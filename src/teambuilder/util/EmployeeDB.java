@@ -51,4 +51,13 @@ public class EmployeeDB {
         employeesList = mapper.readValue(
                 json, mapper.getTypeFactory().constructCollectionType(ArrayList.class, Employee.class));
     }
+
+    /**
+     * Returns the database, in its current state.
+     * The returned database, is not used at all for additions to the database.
+     * @return
+     */
+    public final ArrayList<Employee> getDB(){
+        return employeesList;
+    }
 }
