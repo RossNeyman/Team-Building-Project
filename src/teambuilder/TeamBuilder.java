@@ -34,7 +34,7 @@ public class TeamBuilder{
      */
     public void addMember(Employee worker) throws ArithmeticException{
 
-        if(memberCount <= maxMembers){
+        if(memberCount <= maxMembers && !(onTeam(worker))){
             try{
                     teamList.add(worker);
                     memberCount++;
@@ -44,7 +44,7 @@ public class TeamBuilder{
                 System.out.println(except.getMessage()); // TODO consider writing a function to display all exception messages.
             }
         }
-        else throw new ArithmeticException("Member count is equal to or exceeds max count.");
+        else throw new ArithmeticException("Member count is equal to or exceeds max count. Or Employee is already on team");
     }
 
 
@@ -69,8 +69,9 @@ public class TeamBuilder{
             System.out.println("No members in team");
         }
         else{
+            //TODO fix employees role display.
             for(Employee member : teamList){
-               member.printNameID();
+               member.printNameID();//update to include role as well.
                System.out.println(member.getPreferredRole());
                System.out.println();
             }
@@ -98,6 +99,15 @@ public class TeamBuilder{
      */
     public int getMemberCount(){
         return memberCount;
+    }
+
+    /**
+     * Checks if an employee is already on the team.
+     * @param person
+     * @return
+     */
+    public boolean onTeam(Employee person){
+        return teamList.contains(person);
     }
 
     }
