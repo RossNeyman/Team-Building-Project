@@ -69,10 +69,8 @@ public class TeamBuilder{
             System.out.println("No members in team");
         }
         else{
-            //TODO fix employees role display.
             for(Employee member : teamList){
-               member.printNameID();//update to include role as well.
-               System.out.println(member.getPreferredRole());
+               member.printBasicInfo();
                System.out.println();
             }
         }

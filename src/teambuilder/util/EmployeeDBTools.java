@@ -124,7 +124,7 @@ public class EmployeeDBTools extends EmployeeDB {
      */
     public void printList(){
         for(Employee employee : employeesList){
-            employee.printNameID();
+            employee.printBasicInfo();
         }
     }
 

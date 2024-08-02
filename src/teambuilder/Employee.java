@@ -137,10 +137,11 @@ public class Employee extends Person {
     }
 
     /**
-     * Print only the name and ID of the employee.
+     * Print only the name, ID, and Role of an Employee.
+     * In the format of Role, ID, Name.
      */
-    public void printNameID(){
-        System.out.println(name + " - " + id);
+    public void printBasicInfo(){
+        System.out.println(preferredRole+ " - " + id + " - " + name);
 
     }
 }
