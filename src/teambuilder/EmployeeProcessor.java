@@ -295,6 +295,7 @@ public class EmployeeProcessor {
      */
     public void buildTeam(){
         TeamBuilder team = new TeamBuilder(data);
+        suggestionAlgorithm suggest = new suggestionAlgorithm(data);
         int max;
         String name;
         int exitChoice = 0;
@@ -306,6 +307,11 @@ public class EmployeeProcessor {
             switch (choice) {
                 case 1:
                     try {
+                        Employee S = suggest.simpleSuggest(team);
+                        if(S != null && team.getMemberCount() > 0){
+                            //TODO find way to move this print statement to a terminal ui method.
+                            System.out.println("Consider adding " + S.getName() + " - " + S.getID());
+                        }
                         TeamBuilderUI.memberAdd();
                         name = lineReader.nextLine();
                         team.addMember(data.searchEmployeeByName(name));
@@ -332,8 +338,8 @@ public class EmployeeProcessor {
                 case 4:
                     try {
                         TeamBuilderUI.maxMemberSet(); // the default max is 8
-                        //TODO add call to suggest algo set max member count here, if possible.
                         max = lineReader.nextInt();
+                        suggest.setTeamMax(max);
                         team.setMaxMembers(max);
                         break;
                     } catch (IllegalArgumentException except) {
