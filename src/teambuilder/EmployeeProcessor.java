@@ -293,14 +293,16 @@ public class EmployeeProcessor {
     /**
      * Combines TeamBuilderUI and TeamBuilder classes for user interaction.
      */
-    public void buildTeam(){
+    public void buildTeam() throws IOException {
         TeamBuilder team = new TeamBuilder(data);
         suggestionAlgorithm suggest = new suggestionAlgorithm(data);
         int max;
         String name;
         int exitChoice = 0;
+        int saveChoice = 0;
 
         while(exitChoice != 1) {
+            saveChoice = 0;
             TeamBuilderUI.displayMenu();
             int choice = lineReader.nextInt();
             lineReader.nextLine();
@@ -350,7 +352,10 @@ public class EmployeeProcessor {
                     displayEmployeeList();
                     break;
             }
-
+            TerminalUI.displaySaveMenu();
+            saveChoice = lineReader.nextInt();
+            if(saveChoice == 1)
+                team.saveTeam();
             TeamBuilderUI.displayExitMenu();
             exitChoice = lineReader.nextInt();
         }

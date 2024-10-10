@@ -70,5 +70,9 @@ public class TerminalUI {
         System.out.println("2. Remove an employee by their ID number");
         System.out.println("3. Update employees info by ID number");
     }
+
+    public static void displaySaveMenu(){
+        System.out.println("Would you like to save this team? (y/n");
+    }
 }
 

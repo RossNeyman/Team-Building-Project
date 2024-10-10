@@ -1,18 +1,26 @@
 package teambuilder;
 
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import teambuilder.util.EmployeeDBTools;
 
 //import java.io.IOException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Implements methods for operating on a team.
  */
 public class TeamBuilder{
+    private ObjectMapper teamMapper = new ObjectMapper();
+    private ObjectWriter teamWriter = teamMapper.writer(new DefaultPrettyPrinter());
     private ArrayList<Employee> teamList = new ArrayList<Employee>();
     private EmployeeDBTools tool;
     private int memberCount = 0;
     private int maxMembers = 8; // 8 is the default max value.
+    private File teamFile = new File("teamsList.json");
 
 
     /**
@@ -108,4 +116,9 @@ public class TeamBuilder{
         return teamList.contains(person);
     }
 
+    public void saveTeam() throws IOException {
+        teamWriter.writeValue(teamFile, "");
+        teamMapper.writeValue(teamFile, teamList);
     }
+
+}
